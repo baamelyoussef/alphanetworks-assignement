@@ -8,8 +8,8 @@
               <div class="header-cell">
                 <template v-if="!nameSearchActive">
                   <span>Name</span>
-                  <i @click="toggleSearch('name')" class="magnify-icon"
-                    ><svg
+                  <i @click="toggleSearch('name')" class="magnify-icon">
+                    <svg
                       class="w-6 h-6 text-gray-800 dark:text-white"
                       aria-hidden="true"
                       xmlns="http://www.w3.org/2000/svg"
@@ -29,8 +29,8 @@
                 </template>
                 <template v-else>
                   <input v-model="nameQuery" placeholder="Search by name" />
-                  <i @click="toggleSearch('name')" class="close-icon"
-                    ><svg
+                  <i @click="toggleSearch('name')" class="close-icon">
+                    <svg
                       class="w-6 h-6 text-gray-800 dark:text-white"
                       aria-hidden="true"
                       xmlns="http://www.w3.org/2000/svg"
@@ -76,8 +76,8 @@
                 </template>
                 <template v-else>
                   <input v-model="usernameQuery" placeholder="Search by username" />
-                  <i @click="toggleSearch('username')" class="close-icon"
-                    ><svg
+                  <i @click="toggleSearch('username')" class="close-icon">
+                    <svg
                       class="w-6 h-6 text-gray-800 dark:text-white"
                       aria-hidden="true"
                       xmlns="http://www.w3.org/2000/svg"
@@ -102,8 +102,8 @@
               <div class="header-cell">
                 <template v-if="!emailSearchActive">
                   <span>Email</span>
-                  <i @click="toggleSearch('email')" class="magnify-icon"
-                    ><svg
+                  <i @click="toggleSearch('email')" class="magnify-icon">
+                    <svg
                       class="w-6 h-6 text-gray-800 dark:text-white"
                       aria-hidden="true"
                       xmlns="http://www.w3.org/2000/svg"
@@ -123,8 +123,8 @@
                 </template>
                 <template v-else>
                   <input v-model="emailQuery" placeholder="Search by email" />
-                  <i @click="toggleSearch('email')" class="close-icon"
-                    ><svg
+                  <i @click="toggleSearch('email')" class="close-icon">
+                    <svg
                       class="w-6 h-6 text-gray-800 dark:text-white"
                       aria-hidden="true"
                       xmlns="http://www.w3.org/2000/svg"
@@ -148,18 +148,21 @@
             <th>Company</th>
             <th>City</th>
             <th>Phone</th>
-            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="user in filteredUsers" :key="user.id">
+          <tr
+            v-for="user in filteredUsers"
+            :key="user.id"
+            @click="viewPosts(user.id)"
+            class="clickable-row"
+          >
             <td>{{ user.name }}</td>
             <td>{{ user.username }}</td>
             <td>{{ user.email }}</td>
             <td>{{ user.company.name }}</td>
             <td>{{ user.address.city }}</td>
             <td>{{ user.phone }}</td>
-            <td><button @click="viewPosts(user.id)">View Posts</button></td>
           </tr>
         </tbody>
       </table>
@@ -175,7 +178,6 @@ import { ref, computed, onMounted } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
 
-// Define types for user and errors
 interface User {
   id: number
   name: string
@@ -192,7 +194,6 @@ interface User {
 
 const router = useRouter()
 
-// Search state for each column
 const nameSearchActive = ref<boolean>(false)
 const usernameSearchActive = ref<boolean>(false)
 const emailSearchActive = ref<boolean>(false)
@@ -233,7 +234,7 @@ const fetchUsers = async () => {
 }
 
 const viewPosts = (userId: number) => {
-  router.push(`/posts?userId=${userId}`) // Navigate to posts page (you can implement routing logic here)
+  router.push(`/posts?userId=${userId}`)
 }
 
 onMounted(fetchUsers)
@@ -317,6 +318,7 @@ onMounted(fetchUsers)
   display: flex;
   align-items: center;
   justify-content: space-between;
+  align-items: center;
   align-content: center;
   gap: 8px;
 }
@@ -360,5 +362,12 @@ onMounted(fetchUsers)
 .error {
   text-align: center;
   margin-top: 20px;
+}
+.custom-table tr.clickable-row {
+  cursor: pointer;
+}
+
+.custom-table tr.clickable-row:hover {
+  background-color: #f1f1f1;
 }
 </style>
